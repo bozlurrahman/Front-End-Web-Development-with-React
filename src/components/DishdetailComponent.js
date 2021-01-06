@@ -7,14 +7,6 @@ class Dishdetail extends Component {
     this.state = {};
   }
 
-  formatDate({ date }) {
-    return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  }
-
   renderDish(dish) {
     // console.log(dish)
     if (dish != null) {
@@ -37,14 +29,18 @@ class Dishdetail extends Component {
     if (comments != null) {
       let list = comments.map((comments) => {
         let date = comments.date;
-        // console.log(this.formatDate({date}))
 
         return (
           <li key={comments.id}>
             <div>
               <p>{comments.comment}</p>
               <p>
-                --{comments.author},{this.formatDate({ date })}
+                --{comments.author},
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                }).format(new Date(Date.parse(comment.date)))}
               </p>
             </div>
           </li>
