@@ -4,19 +4,18 @@ import { Link } from 'react-router-dom';
 
 function RenderLeader({leader}) {
     return (
-        <Media width="100%">
-            <Media left href="#">
-                <Media object src={leader.image} />
-            </Media>
-            <div className="ml-4 mb-4">
-                <Media body width="100%">
-                    <Media heading>{leader.name}</Media>
-                    {leader.designation}
-                    <br /><br />
-                    {leader.description}
+        <div key={leader.id} className="col-12 mt-5">
+            <Media tag="li">
+                <Media left middle>
+                    <Media object src={leader.image} alt={leader.name} />
                 </Media>
-            </div>
-        </Media>
+                <Media body className="ml-5">
+                    <Media heading>{leader.name}</Media>
+                    <p>{leader.designation}</p>
+                    <p>{leader.description}</p>
+                </Media>
+            </Media>
+        </div>
     );
 }
 
@@ -24,9 +23,7 @@ function About(props) {
 
     const leaders = props.leaders.map((leader) => {
         return (
-            <div key={leader.id} className="col-12 m-2">
-                    <RenderLeader leader={leader} />
-            </div>
+            <RenderLeader leader={leader} />
         );
     });
 
@@ -40,7 +37,7 @@ function About(props) {
                 <div className="col-12">
                     <h3>About Us</h3>
                     <hr />
-                </div>
+                </div>                
             </div>
             <div className="row row-content">
                 <div className="col-12 col-md-6">
@@ -94,4 +91,4 @@ function About(props) {
     );
 }
 
-export default About;
+export default About;    
