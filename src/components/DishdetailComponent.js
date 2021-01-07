@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card, CardImg, CardBody, CardText, CardTitle } from "reactstrap";
 
 function renderDish({ dish }) {
@@ -22,8 +22,6 @@ function renderComments({ comments }) {
   // console.log(comments)
   if (comments != null) {
     let list = comments.map((comments) => {
-      let date = comments.date;
-
       return (
         <li key={comments.id}>
           <div>
