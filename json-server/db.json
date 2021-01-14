@@ -271,27 +271,6 @@
       "message": "afadsfds",
       "date": "2017-12-04T09:41:49.890Z",
       "id": 1
-    },
-    {
-      "firstname": "Bozlur",
-      "lastname": "Rahman",
-      "telnum": "435345",
-      "email": "bozlurrahman.cmt@gmail.com",
-      "agree": true,
-      "contactType": "Tel.",
-      "message": "45345",
-      "id": 2
-    },
-    {
-      "date": "2021-01-14T05:33:13.976Z",
-      "firstname": "Bozlur",
-      "lastname": "Rahman",
-      "telnum": "43545345",
-      "email": "bozlurrahman.cmt@gmail.com",
-      "agree": false,
-      "contactType": "Tel.",
-      "message": "453454",
-      "id": 3
     }
   ]
 }
