@@ -1,4 +1,5 @@
 import * as ActionTypes from './ActionTypes';
+import { DISHES } from '../shared/dishes';
 import { baseUrl } from '../shared/baseUrl';
 
 export const addComment = (comment) => ({
@@ -146,28 +147,29 @@ export const addPromos = (promos) => ({
 });
 
 export const fetchLeaders = () => (dispatch) => {
-    dispatch(leadersLoading(true));
+    
+    dispatch(leadersLoading());
 
     return fetch(baseUrl + 'leaders')
-        .then(response => {
-            if(response.ok) {
-                return response;
-            } else {
-                var error = new Error('Error' + response.status + ': ' + response.statusText);
-                error.response = response;
-
-                throw error;
-            }
-        }, (error) => {
-            var errorMessage = new Error(error.errorMessage);
-            throw errorMessage;
-        })
-        .then((response) => response.json())
-        .then((leaders) => dispatch(addLeaders(leaders)))
-        .catch((error) => dispatch(leadersFailed(error.message)))
+    .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error('Error ' + response.status + ': ' + response.statusText);
+          error.response = response;
+          throw error;
+        }
+      },
+      error => {
+            var errmess = new Error(error.message);
+            throw errmess;
+      })
+    .then(response => response.json())
+    .then(leaders => dispatch(addLeaders(leaders)))
+    .catch(error => dispatch(leadersFailed(error.message)));
 }
 
-export const leadersLoading = () => (dispatch) => ({
+export const leadersLoading = () => ({
     type: ActionTypes.LEADERS_LOADING
 });
 
@@ -181,35 +183,56 @@ export const addLeaders = (leaders) => ({
     payload: leaders
 });
 
-export const postFeedback = (feedback) => (dispatch) => {
-    const newFeedback = Object.assign({ date: new Date().toISOString() }, feedback)
 
-    return fetch(baseUrl + 'feedback', {
-        method: 'POST',
-        body: JSON.stringify(newFeedback),
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'same-origin'
+export const postFeedback = (
+    firstname,
+    lastname,
+    telnum,
+    email,
+    agree,
+    contactType,
+    message
+  ) => dispatch => {
+    const newFeedback = {
+      firstname: firstname,
+      lastname: lastname,
+      telnum: telnum,
+      email: email,
+      agree: agree,
+      contactType: contactType,
+      message: message
+    };
+  
+    return fetch(baseUrl + "feedback", {
+      method: "POST",
+      body: JSON.stringify(newFeedback),
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
     })
-    .then((response) => {
-        if(response.ok) {
+      .then(
+        response => {
+          if (response.ok) {
             return response;
-        } else {
-            var error = new Error('Error' + response.status + ': ' + response.statusText);
+          } else {
+            var error = new Error(
+              "Error " + response.status + ": " + response.statusText
+            );
             error.response = response;
-
             throw error;
+          }
+        },
+        error => {
+          throw error;
         }
-    }, (error) => {
-        var errorMessage = new Error(error.errorMessage);
-        throw errorMessage;
-    })
-    .then((response) => response.json())
-    // .then((response) => dispatch(addComment(response)))
-    .then(response => alert('Thank you for your feedback! ' + JSON.stringify(response)))
-    .catch(error => {
-        console.log('POST feedback' + error.message);
-        alert('Feedback could not be posted:\n' + error.message);
-    })
-}
+      )
+      .then(response => response.json())
+      .then(response =>
+        alert("Thank you for your feedback!" + JSON.stringify(response))
+      )
+      .catch(error => {
+        console.log("post feedbacks", error.message);
+        alert("Your feedback could not be posted\nError: " + error.message);
+      });
+  };
